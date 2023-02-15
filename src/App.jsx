@@ -21,7 +21,7 @@ export default function App() {
 
 //----------------Maps over each array element--------------//
   const diceElements = dice.map(die => {
-    return <Die key={die.id}  value={die.value} />
+    return <Die key={die.id}  value={die.value} isHeld={die.isHeld}/>
   })
 
 //----------------Generates a *NEW* array of 10 random dice numbers--------------//

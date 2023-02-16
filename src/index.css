@@ -3,7 +3,6 @@
 }
 
 body {
-  margin: 0 auto;
   padding: 15px;
   background-color: #0b2434;
   text-align: center;
@@ -27,6 +26,7 @@ main {
  justify-content: center;
  align-items: center;
  margin-top: 3em;
+ margin: 0 auto
 }
 
 .dice--container {

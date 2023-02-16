@@ -12,7 +12,7 @@ export default function App() {
       //------Object is pushed into diceArray with values representing each die-----//
       diceArray.push({
         value: Math.floor(Math.random() * 6 + 1),
-        isHeld: true,
+        isHeld: false,
         id: nanoid()
       })
     }
@@ -30,13 +30,28 @@ export default function App() {
     />
   })
 
+  //----------------Flips boolean of die(isHeld) resulting in color change--------------//
   function holdDice(id) {
-    console.log(id)
+    setDice(prevDice => prevDice.map(die => {
+      return die.id === id ?
+        { ...die, isHeld: !die.isHeld } :
+        die
+    }))
   }
 
-  //----------------Generates a *NEW* array of 10 random dice numbers--------------//
+
+
+  //----------------Generates random dice numbers if isHeld is false--------------//
   function rollDice() {
-    setDice(allNewDice())
+    setDice(prevDice => prevDice.map(die => {
+  //----------------Maintains isHeld state of previous die--------------//
+      return die.isHeld ? { ...die } :
+        {
+          value: Math.floor(Math.random() * 6 + 1),
+          isHeld: false,
+          id: nanoid()
+        }
+    }))
   }
 
 

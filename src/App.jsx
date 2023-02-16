@@ -3,11 +3,26 @@ import Die from './Die'
 import { nanoid } from 'nanoid'
 import Confetti from 'react-confetti'
 
+
 export default function App() {
   const [dice, setDice] = React.useState(allNewDice())
   const [tenzies, setTenzies] = React.useState(false)
   const [count, setCount] = React.useState(0)
 
+  const [time, setTime] = React.useState(0)
+  const [isActive, setIsActive] = React.useState(false)
+
+  React.useEffect(() => {
+    let interval
+    if (isActive) {
+      interval = setInterval(() => {
+        setTime((prevTime => prevTime + 10))
+      }, 10)
+    } else if (!isActive) {
+      clearInterval(interval)
+    }
+    return () => clearInterval(interval)
+  }, [isActive])
 
   React.useEffect(() => {
     const allHeld = dice.every(die => die.isHeld)
@@ -15,6 +30,7 @@ export default function App() {
 
     if (allHeld && allEqual) {
       setTenzies(true)
+      setIsActive(false)
     }
   }, [dice])
   //----------------Generates a single new die--------------//
@@ -54,6 +70,7 @@ export default function App() {
         { ...die, isHeld: !die.isHeld } :
         die
     }))
+    setIsActive(true)
   }
 
 
@@ -61,6 +78,7 @@ export default function App() {
     setDice(allNewDice())
     setTenzies(false)
     setCount(0)
+    setTime(0)
   }
   //----------------Generates random dice numbers if isHeld is false--------------//
   function rollDice() {
@@ -70,7 +88,7 @@ export default function App() {
     }))
 
     setCount(prevCount => prevCount + 1)
-
+    setIsActive(true)
   }
 
 
@@ -86,7 +104,10 @@ export default function App() {
       </div>
       <div className='game-stats-container'>
         <h2 className='game--rolls'>Rolls: {count}</h2>
-        
+        <div className='timer'>
+          <span>{("0" + Math.floor((time / 1000) % 60)).slice(-2)}:</span>
+          <span>{("0" + ((time / 10) % 100)).slice(-2)}</span>
+        </div>
       </div>
       <button onClick={tenzies ? newGame : rollDice} >{tenzies ? "New Game" : "Roll"}</button>
     </main>

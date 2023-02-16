@@ -5,16 +5,32 @@ import { nanoid } from 'nanoid'
 export default function App() {
   const [dice, setDice] = React.useState(allNewDice())
 
+  const [tenzies, setTenzies] = React.useState(false)
+
+  React.useEffect(() => {
+   const allHeld = dice.every(die => die.isHeld)
+   const allEqual = dice => dice.every(die => dice[0])
+
+   if (allHeld && allEqual){
+    console.log('You won')
+    setTenzies(true)
+   }
+  },[dice])
+//----------------Generates a single new die--------------//
+  function generateNewDie() {
+    return {
+      value: Math.floor(Math.random() * 6 + 1),
+      isHeld: false,
+      id: nanoid()
+    }
+  }
+
   //----------------Generates an array of 10 random dice numbers--------------//
   function allNewDice() {
     const diceArray = []
     for (let i = 0; i < 10; i++) {
       //------Object is pushed into diceArray with values representing each die-----//
-      diceArray.push({
-        value: Math.floor(Math.random() * 6 + 1),
-        isHeld: false,
-        id: nanoid()
-      })
+      diceArray.push(generateNewDie())
     }
     return diceArray
   }
@@ -39,18 +55,11 @@ export default function App() {
     }))
   }
 
-
-
   //----------------Generates random dice numbers if isHeld is false--------------//
   function rollDice() {
     setDice(prevDice => prevDice.map(die => {
   //----------------Maintains isHeld state of previous die--------------//
-      return die.isHeld ? { ...die } :
-        {
-          value: Math.floor(Math.random() * 6 + 1),
-          isHeld: false,
-          id: nanoid()
-        }
+      return die.isHeld ? die : generateNewDie()
     }))
   }
 
@@ -64,7 +73,7 @@ export default function App() {
       <div className='dice--container'>
         {diceElements}
       </div>
-      <button onClick={rollDice}>Roll</button>
+      <button onClick={rollDice}>{tenzies ? "New Game" : "Roll"}</button>
     </main>
   )
 }

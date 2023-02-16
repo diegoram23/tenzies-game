@@ -9,7 +9,7 @@ body {
   color: #2b283a;
 }
 p {
-  margin-bottom: 1em;
+  margin-bottom: 2em;
   max-width: 340px;
 }
 
@@ -36,7 +36,7 @@ main {
   align-items: center;
   flex-wrap: wrap;
   width: 100%;
-  gap:15px
+  gap:12px
   }
 
 .die--face {
@@ -50,6 +50,7 @@ main {
   display: flex;
   justify-content: center;
   align-items: center;
+  cursor: pointer;
 }
 
 .die--number {
@@ -58,9 +59,9 @@ main {
 }
 
 button {
-  margin-top: 0.5em;
-  width: 5em;
-  height: 2em;
+  margin-top: 1.5em;
+  width: 7.2em;
+  height: 2.2em;
   border: none;
   border-radius: 4px;
   font-weight: 700;
@@ -69,4 +70,5 @@ button {
   letter-spacing: 0.05em;
   background-color: #5035ff;
   box-shadow: 0px 3px, 7px rgba(0, 0, 0, 0.18);
+  cursor: pointer;
 }

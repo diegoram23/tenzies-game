@@ -5,19 +5,19 @@ import Confetti from 'react-confetti'
 
 export default function App() {
   const [dice, setDice] = React.useState(allNewDice())
-
   const [tenzies, setTenzies] = React.useState(false)
+  const [count, setCount] = React.useState(0)
+
 
   React.useEffect(() => {
-   const allHeld = dice.every(die => die.isHeld)
-   const allEqual = dice => dice.every(die => dice[0])
+    const allHeld = dice.every(die => die.isHeld)
+    const allEqual = dice => dice.every(die => dice[0])
 
-   if (allHeld && allEqual){
-    console.log('You won')
-    setTenzies(true)
-   }
-  },[dice])
-//----------------Generates a single new die--------------//
+    if (allHeld && allEqual) {
+      setTenzies(true)
+    }
+  }, [dice])
+  //----------------Generates a single new die--------------//
   function generateNewDie() {
     return {
       value: Math.floor(Math.random() * 6 + 1),
@@ -57,9 +57,10 @@ export default function App() {
   }
 
 
-  function newGame(){
+  function newGame() {
     setDice(allNewDice())
     setTenzies(false)
+    setCount(0)
   }
   //----------------Generates random dice numbers if isHeld is false--------------//
   function rollDice() {
@@ -67,6 +68,9 @@ export default function App() {
     setDice(prevDice => prevDice.map(die => {
       return die.isHeld ? die : generateNewDie()
     }))
+
+    setCount(prevCount => prevCount + 1)
+
   }
 
 
@@ -80,7 +84,11 @@ export default function App() {
       <div className='dice--container'>
         {diceElements}
       </div>
-      <button onClick={tenzies ? newGame : rollDice}>{tenzies ? "New Game" : "Roll"}</button>
+      <div className='game-stats-container'>
+        <h2 className='game--rolls'>Rolls: {count}</h2>
+        
+      </div>
+      <button onClick={tenzies ? newGame : rollDice} >{tenzies ? "New Game" : "Roll"}</button>
     </main>
   )
 }

@@ -26,7 +26,7 @@ export default function App() {
 
   React.useEffect(() => {
     const allHeld = dice.every(die => die.isHeld)
-    const allEqual = dice => dice.every(die => dice[0])
+    const allEqual = dice => dice.every(die => die.value === dice[0].value)
 
     if (allHeld && allEqual) {
       setTenzies(true)
